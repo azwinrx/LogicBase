@@ -4,7 +4,7 @@ import { searchMateri } from "../../helper/supabaseMateri.js";
 import { useAuth } from "../../helper/authUtils.js";
 import { useSearch } from "../../helper/useSearch.js";
 
-export default function Header() {
+export default function Header({ setIsSidebarOpen }) {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -103,19 +103,46 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-[#132238] text-white p-4 flex items-center justify-between sticky top-0 z-10">
+    <header className="w-full bg-[#132238] text-white p-4 flex items-center justify-between sticky top-0 z-30">
+      {/* Mobile hamburger menu */}
+      {setIsSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="lg:hidden p-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors mr-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      )}
+
       <div className="flex-1"></div>
-      <div className="flex items-center gap-4">
+
+      <div className="flex items-center gap-2 sm:gap-4">
+        {/* Kobi mascot - hide on very small screens */}
         <img
           src="/Icon Kobi (maskot LogicBase)/KobiMengajak.svg"
-          className="h-24 absolute right-64"
+          className="h-16 sm:h-20 lg:h-24 absolute right-48 sm:right-56 lg:right-64 hidden sm:block"
+          alt="Kobi Mascot"
         />
+
         <div className="relative">
           <input
             ref={inputRef}
             type="text"
             placeholder="Cari materi..."
-            className="p-2 rounded-md text-black pr-10"
+            className="p-2 rounded-md text-black pr-10 w-40 sm:w-48 lg:w-auto text-sm sm:text-base"
             value={search}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeyDown}
@@ -133,7 +160,7 @@ export default function Header() {
               {suggestions.map((item) => (
                 <div
                   key={item.id}
-                  className="px-4 py-2 cursor-pointer hover:bg-sky-100 border-b"
+                  className="px-4 py-2 cursor-pointer hover:bg-sky-100 border-b text-sm"
                   onMouseDown={() => handleSuggestionClick(item.slug)}
                 >
                   {item.nama_materi}
@@ -142,20 +169,21 @@ export default function Header() {
             </div>
           )}
         </div>
+
         {/* Icon profile */}
         <div className="relative">
           <div
-            className="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer"
+            className="w-7 h-7 sm:w-8 sm:h-8 bg-white rounded-full flex items-center justify-center cursor-pointer"
             onClick={handleProfileClick}
           >
             <img
               src="/Icon Kobi (maskot LogicBase)/kobiSenang.svg"
               alt="Profile"
-              className="w-7 h-7 rounded-full object-cover"
+              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover"
             />
           </div>
           {showProfile && !search && (
-            <div className="absolute right-0 mt-2 w-80 bg-white text-black rounded shadow-lg z-20 p-4">
+            <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white text-black rounded shadow-lg z-20 p-4">
               <div
                 className="absolute -top-0.5 left-2 rounded-full text-gray-500 hover:text-gray-800 text-2xl cursor-pointer"
                 onClick={() => setShowProfile(false)}
@@ -169,13 +197,13 @@ export default function Header() {
                   alt="Profile"
                   className="w-12 h-12 rounded-full object-cover border"
                 />
-                <div>
-                  <div className="font-semibold text-lg">
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-base sm:text-lg truncate">
                     {user?.user_metadata?.name ||
                       user?.email?.split("@")[0] ||
                       "Nama Pengguna"}
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 truncate">
                     {user?.email || "user@email.com"}
                   </div>
                   <div className="text-xs text-gray-400 mt-1">
@@ -184,7 +212,7 @@ export default function Header() {
                 </div>
               </div>
               <button
-                className="w-full px-4 py-2 bg-[#132238] text-white rounded hover:bg-slate-500"
+                className="w-full px-4 py-2 bg-[#132238] text-white rounded hover:bg-slate-500 text-sm sm:text-base"
                 onClick={handleLogout}
               >
                 Logout

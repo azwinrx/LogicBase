@@ -91,17 +91,20 @@ export default function Riwayat() {
   };
 
   return (
-    <div className="p-6 sm:p-8">
-    <div className="flex items-center justify-start mb-5">
-      <h1 className="text-3xl font-bold text-black">Riwayat Aktivitas</h1>
-      <img
-            src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
-            alt="Kobi"
-            className="w-10 ml-1"
-          />
-    </div>
+    <div>
+      <div className="flex items-center justify-start mb-4 sm:mb-5">
+        <h1 className="text-2xl sm:text-3xl font-bold text-black">
+          Riwayat Aktivitas
+        </h1>
+        <img
+          src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
+          alt="Kobi"
+          className="w-8 sm:w-10 ml-1 flex-shrink-0"
+        />
+      </div>
+
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {[...Array(3)].map((_, i) => (
             <SkeletonCard key={i} />
           ))}
@@ -109,52 +112,61 @@ export default function Riwayat() {
       ) : courses.length === 0 ? (
         <div
           style={{ backgroundColor: pastelColors[2] }}
-          className="text-center py-16 rounded-xl"
+          className="text-center py-12 sm:py-16 rounded-xl px-4"
         >
-          <h3 className="text-xl font-semibold text-black">
-            Belum ada materi yang selesai bro
+          <div className="w-20 h-20 mx-auto mb-4 bg-black/10 rounded-full flex items-center justify-center">
+            <span className="text-3xl">📚</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-semibold text-black mb-2">
+            Belum ada materi yang selesai
           </h3>
-          <p className="text-slate-800 mt-2">
+          <p className="text-slate-800 text-sm sm:text-base">
             Mulai kursus untuk melihat riwayat Anda di sini.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {courses.map((course, index) => (
             <div
               key={course.id}
               style={{
                 backgroundColor: pastelColors[index % pastelColors.length],
               }}
-              className="rounded-xl shadow-lg flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl cursor-pointer"
+              className="rounded-xl shadow-lg flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl cursor-pointer min-h-[240px] sm:min-h-[260px]"
               onClick={() => handleCourseClick(course.slug)}
             >
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-xl font-bold text-slate-800">
+              <div className="p-4 sm:p-6 flex-1">
+                <div className="flex justify-between items-start mb-3 sm:mb-4 gap-2">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-800 leading-tight flex-1 min-w-0">
                     {course.nama_materi}
                   </h2>
-                  <StatusBadge status={course.status} />
+                  <div className="flex-shrink-0">
+                    <StatusBadge status={course.status} />
+                  </div>
                 </div>
-                <p className="text-sm text-slate-700 mb-6 h-10">
+                <p className="text-xs sm:text-sm text-slate-700 mb-4 sm:mb-6 line-clamp-3 leading-relaxed">
                   {course.deskripsi || "No description available."}
                 </p>
-                <div className="flex items-center gap-3">
-                  <ProgressBar progress={course.progress} />
-                  <span className="text-sm font-semibold text-slate-800">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex-1">
+                    <ProgressBar progress={course.progress} />
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-800 whitespace-nowrap">
                     {course.progress}%
                   </span>
                 </div>
               </div>
               <div
                 style={{ backgroundColor: "rgba(0,0,0,0.1)" }}
-                className="px-6 py-4 rounded-b-xl"
+                className="px-4 sm:px-6 py-3 sm:py-4 rounded-b-xl"
               >
-                <div className="w-full flex justify-center items-center gap-2 text-sm font-semibold text-white">
-                  {course.status === "Completed"
-                    ? "Review Materi"
-                    : "Lanjutkan Belajar"}
-                  <ArrowRightIcon className="w-4 h-4" />
+                <div className="w-full flex justify-center items-center gap-2 text-xs sm:text-sm font-semibold text-white">
+                  <span className="text-center">
+                    {course.status === "Completed"
+                      ? "Review Materi"
+                      : "Lanjutkan Belajar"}
+                  </span>
+                  <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 </div>
               </div>
             </div>

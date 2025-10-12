@@ -15,7 +15,7 @@ const pastelColors = [
 ];
 
 const DashboardSkeleton = () => (
-  <main className="animate-pulse flex-1 p-6 md:p-8 overflow-y-auto">
+  <main className="animate-pulse flex-1 overflow-y-auto">
     <div className="h-8 bg-slate-700 rounded w-1/2 mb-2"></div>
     <div className="h-4 bg-slate-700 rounded w-1/3 mb-8"></div>
     <div className="bg-slate-800/50 ring-1 ring-slate-700 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 mb-8">
@@ -135,20 +135,20 @@ export default function DashboardContent() {
   }
 
   return (
-    <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+    <main className="flex-1 overflow-y-auto">
       <section id="header-sambutan">
-        <div className="flex items-center justify-start gap-3">
-          <h2 className="text-3xl font-bold text-black">
+        <div className="flex items-center justify-start gap-2 sm:gap-3">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-black leading-tight">
             {getGreetingBasedOnTime()},{" "}
             {user?.user_metadata?.name || "Petualang"}!
           </h2>
           <img
             src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
             alt="Kobi"
-            className="w-10 -ml-1"
+            className="w-8 sm:w-10 -ml-1 flex-shrink-0"
           />
         </div>
-        <p className="mt-1 text-slate-700">
+        <p className="mt-1 text-sm sm:text-base text-slate-700">
           Setiap baris kode yang kamu tulis hari ini adalah langkah menuju masa
           depan.
         </p>
@@ -156,23 +156,23 @@ export default function DashboardContent() {
 
       <div
         style={{ backgroundColor: pastelColors[3] }}
-        className="mt-6 text-slate-800 p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-6"
+        className="mt-4 sm:mt-6 text-slate-800 p-4 sm:p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-4 sm:gap-6"
       >
         <div className="flex-1">
-          <h3 className="font-bold text-lg">Ringkasan Mingguan</h3>
-          <p className="text-sm mt-1">
+          <h3 className="font-bold text-base sm:text-lg">Ringkasan Mingguan</h3>
+          <p className="text-xs sm:text-sm mt-1">
             Berikut adalah ringkasan dari perkembangan belajar kamu secara
             keseluruhan.
           </p>
 
-          <div className="mt-4 flex items-center gap-4">
-            <div className="p-3 rounded-lg bg-purple-700/40">
+          <div className="mt-3 sm:mt-4 flex items-center gap-3 sm:gap-4">
+            <div className="p-2 sm:p-3 rounded-lg bg-purple-700/40 flex-shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
-                className="text-slate-800"
+                className="text-slate-800 sm:w-6 sm:h-6"
               >
                 <g fill="currentColor">
                   <path d="M10.243 16.314L6 12.07l1.414-1.414l2.829 2.828l5.656-5.657l1.415 1.415z" />
@@ -184,33 +184,39 @@ export default function DashboardContent() {
                 </g>
               </svg>
             </div>
-            <div>
-              <p className="font-semibold">
+            <div className="min-w-0">
+              <p className="font-semibold text-sm sm:text-base">
                 {courses.filter((c) => c.progress === 100).length} Materi
                 Selesai
               </p>
-              <p className="text-sm">dari total {courses.length} materi</p>
+              <p className="text-xs sm:text-sm text-slate-700">
+                dari total {courses.length} materi
+              </p>
             </div>
           </div>
         </div>
-        <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center flex-shrink-0">
           <canvas ref={chartRef}></canvas>
           <div className="absolute text-center">
-            <p className="text-3xl font-bold">{overallProgress}%</p>
-            <p className="text-sm">Selesai</p>
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold">
+              {overallProgress}%
+            </p>
+            <p className="text-xs sm:text-sm">Selesai</p>
           </div>
         </div>
       </div>
 
       {courseToContinue && (
-        <section className="mt-8">
-          <h3 className="text-2xl font-bold text-black">Lanjutkan Belajar</h3>
+        <section className="mt-6 sm:mt-8">
+          <h3 className="text-xl sm:text-2xl font-bold text-black">
+            Lanjutkan Belajar
+          </h3>
           <div
             style={{ backgroundColor: pastelColors[5] }}
-            className="mt-4 p-4 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-6 text-slate-800"
+            className="mt-3 sm:mt-4 p-4 sm:p-6 rounded-xl shadow-lg flex flex-col items-start gap-4 sm:gap-6 text-slate-800"
           >
             <div className="w-full">
-              <p className="text-sm">
+              <p className="text-xs sm:text-sm">
                 Status:{" "}
                 {courseToContinue.status === "Completed"
                   ? "Selesai"
@@ -218,11 +224,11 @@ export default function DashboardContent() {
                   ? "Sedang Dikerjakan"
                   : "Belum Dimulai"}
               </p>
-              <h4 className="text-xl font-bold mt-1">
+              <h4 className="text-lg sm:text-xl font-bold mt-1">
                 {courseToContinue.nama_materi}
               </h4>
-              <div className="mt-4">
-                <div className="flex justify-between text-sm mb-1">
+              <div className="mt-3 sm:mt-4">
+                <div className="flex justify-between text-xs sm:text-sm mb-1">
                   <span>Progress</span>
                   <span>{courseToContinue.progress}%</span>
                 </div>
@@ -232,13 +238,13 @@ export default function DashboardContent() {
                       backgroundColor: "#c72a2a",
                       width: `${courseToContinue.progress}%`,
                     }}
-                    className="h-2.5 rounded-full"
+                    className="h-2.5 rounded-full transition-all duration-300"
                   ></div>
                 </div>
               </div>
               <button
                 onClick={() => handleCourseClick(courseToContinue.slug)}
-                className="mt-6 w-full md:w-auto bg-[#c72a2a] font-semibold py-2 px-6 rounded-lg hover:bg-[#c72a2a]/80 transition-colors border-none focus:outline-none text-[#fff]"
+                className="mt-4 sm:mt-6 w-full sm:w-auto bg-[#c72a2a] font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-[#c72a2a]/80 transition-colors border-none focus:outline-none focus:ring-2 focus:ring-[#c72a2a] focus:ring-offset-2 text-white text-sm sm:text-base min-h-[44px]"
               >
                 Lanjutkan Belajar
               </button>
@@ -247,9 +253,11 @@ export default function DashboardContent() {
         </section>
       )}
 
-      <section id="kursus-saya" className="mt-8">
-        <h3 className="text-2xl font-bold text-black">Materi Saya</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+      <section id="kursus-saya" className="mt-6 sm:mt-8">
+        <h3 className="text-xl sm:text-2xl font-bold text-black">
+          Materi Saya
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-3 sm:mt-4">
           {filteredCourses.filter((course) => course.progress > 0).length >
           0 ? (
             filteredCourses
@@ -260,15 +268,17 @@ export default function DashboardContent() {
                   style={{
                     backgroundColor: pastelColors[index % pastelColors.length],
                   }}
-                  className="p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl text-slate-800 cursor-pointer"
+                  className="p-4 sm:p-5 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl text-slate-800 cursor-pointer min-h-[120px] flex flex-col justify-between"
                   onClick={() => handleCourseClick(course.slug)}
                 >
-                  <h4 className="font-bold mt-3 text-lg">
-                    {course.nama_materi}
-                  </h4>
-                  <p className="text-sm text-slate-700 mt-1">
-                    {course.deskripsi || "No description"}
-                  </p>
+                  <div>
+                    <h4 className="font-bold text-base sm:text-lg leading-tight">
+                      {course.nama_materi}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-slate-700 mt-1 line-clamp-2">
+                      {course.deskripsi || "No description"}
+                    </p>
+                  </div>
                   <div className="mt-3">
                     <div className="flex justify-between text-xs font-semibold mb-1">
                       <span>
@@ -278,7 +288,7 @@ export default function DashboardContent() {
                     </div>
                     <div className="w-full bg-black/10 rounded-full h-2">
                       <div
-                        className="bg-white/80 h-2 rounded-full"
+                        className="bg-white/80 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${course.progress}%` }}
                       ></div>
                     </div>
@@ -287,13 +297,13 @@ export default function DashboardContent() {
               ))
           ) : searchTerm && searchTerm.trim() !== "" ? (
             <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-500 text-base sm:text-lg px-4">
                 Tidak ada materi yang ditemukan untuk "{searchTerm}"
               </p>
             </div>
           ) : courses.filter((course) => course.progress > 0).length === 0 ? (
             <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-500 text-base sm:text-lg">
                 Belum ada materi yang dimulai
               </p>
             </div>

@@ -218,17 +218,19 @@ export default function Course() {
   };
 
   return (
-    <div className="pl-8 pr-6 pb-6 mt-6">
-      <div className="flex items-center justify-start mb-5">
-        <h1 className="text-3xl font-bold text-black">Jelajahi Materi</h1>
+    <div>
+      <div className="flex items-center justify-start mb-4 sm:mb-5">
+        <h1 className="text-2xl sm:text-3xl font-bold text-black">
+          Jelajahi Materi
+        </h1>
         <img
           src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
           alt="Kobi"
-          className="w-10 ml-1"
+          className="w-8 sm:w-10 ml-1"
         />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((course, idx) => {
             const progress = course.progress || 0;
@@ -239,28 +241,35 @@ export default function Course() {
               <div
                 key={course.id}
                 onClick={() => handleClick(course.slug)}
-                className="relative p-6 rounded-lg shadow-md cursor-pointer max-w-52 text-center content-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:rotate-1"
+                className="relative p-4 sm:p-6 rounded-lg shadow-md cursor-pointer w-full max-w-full sm:max-w-52 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:rotate-1 min-h-[180px] sm:min-h-[200px] flex flex-col justify-between"
                 style={{
                   backgroundColor: pastelColors[idx % pastelColors.length],
                 }}
               >
-                {iconMap[course.nama_materi] && iconMap[course.nama_materi]}
-                <h2 className="text-lg font-semibold mb-2 text-white">
-                  {course.nama_materi}
-                </h2>
-                <p className="text-sm text-white">{statusText}</p>
-                <div className="w-full bg-white/30 h-2 mt-2 rounded">
-                  <div
-                    className="bg-white h-2 rounded"
-                    style={{ width: `${progress}%` }}
-                  ></div>
+                <div className="flex-1 flex flex-col items-center justify-center">
+                  <div className="mb-2">
+                    {iconMap[course.nama_materi] && iconMap[course.nama_materi]}
+                  </div>
+                  <h2 className="text-base sm:text-lg font-semibold mb-2 text-white px-2 leading-tight">
+                    {course.nama_materi}
+                  </h2>
+                </div>
+
+                <div className="mt-auto">
+                  <p className="text-sm text-white mb-2">{statusText}</p>
+                  <div className="w-full bg-white/30 h-2 rounded">
+                    <div
+                      className="bg-white h-2 rounded transition-all duration-300"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             );
           })
         ) : searchTerm && searchTerm.trim() !== "" ? (
           <div className="col-span-full text-center py-12">
-            <p className="text-gray-500 text-lg">
+            <p className="text-gray-500 text-base sm:text-lg px-4">
               Tidak ada materi yang ditemukan untuk "{searchTerm}"
             </p>
           </div>

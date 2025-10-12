@@ -52,13 +52,13 @@ const Login = () => {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen w-full"
+      className="flex justify-center items-center min-h-screen w-full p-3 sm:p-4"
       style={{
         backgroundColor: "#F1AD8D", // Peach orange - kontras dengan mint blue card
       }}
     >
       <div
-        className="m-10 w-full max-w-md p-8 rounded-lg shadow-lg text-slate-800"
+        className="w-full max-w-md p-6 sm:p-8 rounded-lg shadow-lg text-slate-800"
         style={{ backgroundColor: pastelColors[4] }}
       >
         <div className="text-center mb-6">
@@ -66,11 +66,13 @@ const Login = () => {
             <img
               src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
               alt="Kobi"
-              className="w-12 h-12"
+              className="w-10 h-10 sm:w-12 sm:h-12"
             />
-            <h2 className="text-2xl font-semibold">Hai, Selamat Datang!</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold">
+              Hai, Selamat Datang!
+            </h2>
           </div>
-          <p className="text-slate-700">
+          <p className="text-sm sm:text-base text-slate-700">
             Masuk untuk melanjutkan petualangan belajar coding kamu 🎯
           </p>
         </div>
@@ -89,7 +91,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 text-slate-800 bg-white/70 border-2 border-white/50 rounded-md focus:outline-none focus:border-purple-400 focus:bg-white transition-all duration-300"
+              className="w-full px-3 py-2.5 text-slate-800 bg-white/70 border-2 border-white/50 rounded-md focus:outline-none focus:border-purple-400 focus:bg-white transition-all duration-300"
             />
           </div>
 
@@ -106,7 +108,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 text-slate-800 bg-white/70 border-2 border-white/50 rounded-md focus:outline-none focus:border-purple-400 focus:bg-white transition-all duration-300"
+              className="w-full px-3 py-2.5 text-slate-800 bg-white/70 border-2 border-white/50 rounded-md focus:outline-none focus:border-purple-400 focus:bg-white transition-all duration-300"
             />
           </div>
 
@@ -121,7 +123,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 text-slate-800 rounded-md hover:shadow-lg transition duration-300 mb-4 focus:outline-none font-semibold"
+            className="w-full py-2.5 px-4 text-slate-800 rounded-md hover:shadow-lg transition duration-300 mb-4 focus:outline-none font-semibold"
             style={{ backgroundColor: pastelColors[0] }}
             disabled={loading}
           >
@@ -129,7 +131,7 @@ const Login = () => {
           </button>
 
           {error && (
-            <div className="text-red-600 text-sm mb-4 text-center bg-red-50 p-2 rounded-md">
+            <div className="text-red-600 text-sm mb-4 text-center bg-red-50 p-3 rounded-md">
               {error}
             </div>
           )}

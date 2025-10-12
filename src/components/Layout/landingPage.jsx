@@ -28,7 +28,7 @@ export default function LandingPage() {
 
   const pastelColors = [
     "#A2D1B0", // Soft green - sama dengan halaman materi
-    "#77B1E3", // Light blue - sama dengan halaman materi  
+    "#77B1E3", // Light blue - sama dengan halaman materi
     "#F1AD8D", // Peach orange - sama dengan halaman materi
     "#A9A6E5", // Lavender purple - sama dengan halaman materi
     "#A2CFD1", // Mint blue - soft dan ramah anak
@@ -45,17 +45,17 @@ export default function LandingPage() {
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           aria-label="Global"
-          className="flex items-center justify-between p-6 lg:px-8"
+          className="flex items-center justify-between p-4 sm:p-6 lg:px-8"
         >
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5 flex items-center space-x-2">
               <span className="sr-only">LogicBase</span>
               <img
-                src="public/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
+                src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
                 alt="LogicBase Logo"
-                className="h-16 w-auto object-contain align-middle "
+                className="h-12 sm:h-14 lg:h-16 w-auto object-contain align-middle"
               />
-              <span className="text-3xl font-bold text-slate-800">
+              <span className="text-2xl sm:text-3xl font-bold text-slate-800">
                 LogicBase
               </span>
             </a>
@@ -162,7 +162,7 @@ export default function LandingPage() {
         </Dialog>
       </header>
 
-      <div className="relative isolate px-6 pt-14 lg:px-8">
+      <div className="relative isolate px-4 sm:px-6 pt-14 lg:px-8">
         <div
           aria-hidden="true"
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -177,7 +177,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Section */}
-        <div className="mx-auto max-w-4xl py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-4xl py-12 sm:py-16 md:py-24 lg:py-32">
           <div className="hidden sm:mb-6 sm:flex sm:justify-center">
             <div
               className="relative rounded-full px-4 py-2 text-sm leading-6 text-slate-800 ring-1 ring-purple-400/30 hover:ring-purple-400/50 transition-all duration-300"
@@ -191,30 +191,30 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-slate-800 sm:text-6xl lg:text-7xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-slate-800">
               Hai Selamat Datang di{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
                 LogicBase
               </span>
             </h1>
-            <p className="mt-4 text-lg leading-8 text-slate-700 max-w-3xl mx-auto">
+            <p className="mt-4 text-base sm:text-lg leading-6 sm:leading-8 text-slate-700 max-w-3xl mx-auto px-4 sm:px-0">
               Tempat seru untuk belajar logika dasar coding! Kita akan belajar
               cara berpikir komputer melalui materi yang mudah dipahami, lalu
               menguji pemahaman dengan quiz yang menyenangkan. Bergabunglah
               dengan ribuan teman-teman lainnya yang sudah mulai belajar logika
               coding!
             </p>
-            <div className="mt-8 flex items-center justify-center gap-x-6">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
               <a
                 href="#about"
-                className="rounded-md px-6 py-3 text-sm font-semibold text-slate-800 shadow-lg hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 transform hover:scale-105 transition-all duration-200"
+                className="w-full sm:w-auto rounded-md px-6 py-3 text-sm sm:text-base font-semibold text-slate-800 shadow-lg hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 transform hover:scale-105 transition-all duration-200 text-center"
                 style={{ backgroundColor: pastelColors[0] }}
               >
                 🎯 Ayo Mulai Belajar!
               </a>
               <a
                 href="#features"
-                className="text-sm font-semibold leading-6 text-slate-800 hover:text-purple-600 transition-colors"
+                className="text-sm sm:text-base font-semibold leading-6 text-slate-800 hover:text-purple-600 transition-colors"
               >
                 Lihat Fitur Keren <span aria-hidden="true">→</span>
               </a>
@@ -225,13 +225,13 @@ export default function LandingPage() {
         {/* About Section */}
         <div
           id="about"
-          className="mx-auto max-w-7xl px-6 lg:px-8 pb-12 sm:pb-16 scroll-mt-20"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 scroll-mt-20"
         >
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800 lg:text-4xl">
               Tentang LogicBase
             </h2>
-            <p className="mt-3 text-lg leading-8 text-slate-700">
+            <p className="mt-3 text-base sm:text-lg leading-6 sm:leading-8 text-slate-700">
               LogicBase adalah tempat yang super seru untuk anak-anak belajar
               logika dasar coding! Di sini kita akan belajar cara berpikir
               seperti programmer melalui materi yang mudah dipahami, lalu

@@ -7,13 +7,13 @@ import {
 import { getSubMateriBySlug } from "../helper/supabaseMateri";
 import { showToast } from "../helper/toastUtil";
 import { AuthContext } from "../helper/authUtils";
-import { 
-  saveQuizState, 
-  getQuizState, 
-  clearQuizState, 
-  calculateRemainingTime, 
-  updateQuizAnswers, 
-  markQuizCompleted 
+import {
+  saveQuizState,
+  getQuizState,
+  clearQuizState,
+  calculateRemainingTime,
+  updateQuizAnswers,
+  markQuizCompleted,
 } from "../helper/quizPersistence";
 
 const QuizPage = () => {
@@ -47,25 +47,39 @@ const QuizPage = () => {
 
       // Check if there's existing quiz state first
       const existingState = getQuizState();
-      if (existingState && existingState.userId === user?.id && existingState.slug === slug) {
+      if (
+        existingState &&
+        existingState.userId === user?.id &&
+        existingState.slug === slug
+      ) {
         // Resume existing quiz
-        const remainingTime = calculateRemainingTime(existingState.startTime, existingState.initialTimeLimit);
-        
+        const remainingTime = calculateRemainingTime(
+          existingState.startTime,
+          existingState.initialTimeLimit
+        );
+
         if (remainingTime > 0) {
           // Resume the quiz
           setTimeLeft(remainingTime);
           setAnswers(existingState.answers || {});
           setCurrentQuestionIndex(existingState.currentQuestionIndex || 0);
-          
+
           // Get quiz data
           const quizData = await getCompleteQuizBySlug(slug);
           setQuiz(quizData);
-          
+
           // Get sub materi
           const subMateri = await getSubMateriBySlug(slug);
           setSubMateriId(subMateri?.id);
-          
-          showToast(`Quiz dilanjutkan. Sisa waktu: ${Math.floor(remainingTime/60)}:${(remainingTime%60).toString().padStart(2, '0')}`, "info");
+
+          showToast(
+            `Quiz dilanjutkan. Sisa waktu: ${Math.floor(remainingTime / 60)}:${(
+              remainingTime % 60
+            )
+              .toString()
+              .padStart(2, "0")}`,
+            "info"
+          );
           setLoading(false);
           return;
         } else {
@@ -197,10 +211,14 @@ const QuizPage = () => {
     if (quiz && !timerActive && !showResult && user) {
       setTimerActive(true);
       setIsQuizActive(true); // Mark quiz as active when timer starts
-      
+
       // Save initial quiz state to localStorage (only if not resuming)
       const existingState = getQuizState();
-      if (!existingState || existingState.userId !== user.id || existingState.slug !== slug) {
+      if (
+        !existingState ||
+        existingState.userId !== user.id ||
+        existingState.slug !== slug
+      ) {
         const initialState = {
           userId: user.id,
           quizId: quiz.id,
@@ -209,20 +227,30 @@ const QuizPage = () => {
           initialTimeLimit: timeLeft,
           answers: answers,
           currentQuestionIndex: currentQuestionIndex,
-          isActive: true
+          isActive: true,
         };
         saveQuizState(initialState);
       }
     }
-  }, [quiz, timerActive, showResult, user, slug, timeLeft, answers, currentQuestionIndex]);
+  }, [
+    quiz,
+    timerActive,
+    showResult,
+    user,
+    slug,
+    timeLeft,
+    answers,
+    currentQuestionIndex,
+  ]);
 
   // Prevent navigation during active quiz
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (isQuizActive && !showResult) {
         e.preventDefault();
-        e.returnValue = 'Quiz sedang berlangsung. Yakin ingin meninggalkan halaman?';
-        return 'Quiz sedang berlangsung. Yakin ingin ingin meninggalkan halaman?';
+        e.returnValue =
+          "Quiz sedang berlangsung. Yakin ingin meninggalkan halaman?";
+        return "Quiz sedang berlangsung. Yakin ingin ingin meninggalkan halaman?";
       }
     };
 
@@ -231,35 +259,42 @@ const QuizPage = () => {
         e.preventDefault();
         // Push the current state back to prevent navigation
         window.history.pushState(null, null, window.location.pathname);
-        showToast("Tidak dapat keluar dari quiz yang sedang berlangsung", "warning");
+        showToast(
+          "Tidak dapat keluar dari quiz yang sedang berlangsung",
+          "warning"
+        );
         return false;
       }
     };
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden' && isQuizActive && !showResult) {
+      if (
+        document.visibilityState === "hidden" &&
+        isQuizActive &&
+        !showResult
+      ) {
         showToast("Jangan tinggalkan tab quiz!", "warning");
       }
     };
 
     if (isQuizActive && !showResult) {
       // Add beforeunload listener
-      window.addEventListener('beforeunload', handleBeforeUnload);
-      
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
       // Add popstate listener to prevent back navigation
-      window.addEventListener('popstate', handlePopState);
-      
+      window.addEventListener("popstate", handlePopState);
+
       // Add visibility change listener
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-      
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
       // Push initial state to enable back button blocking
       window.history.pushState(null, null, window.location.pathname);
     }
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [isQuizActive, showResult]);
 
@@ -269,7 +304,7 @@ const QuizPage = () => {
       [questionId]: optionId,
     };
     setAnswers(newAnswers);
-    
+
     // Update answers in localStorage
     if (user?.id) {
       updateQuizAnswers(user.id, newAnswers, currentQuestionIndex);
@@ -280,7 +315,7 @@ const QuizPage = () => {
     if (currentQuestionIndex < quiz.questions.length - 1) {
       const newIndex = currentQuestionIndex + 1;
       setCurrentQuestionIndex(newIndex);
-      
+
       // Update question index in localStorage
       if (user?.id) {
         updateQuizAnswers(user.id, answers, newIndex);
@@ -292,7 +327,7 @@ const QuizPage = () => {
     if (currentQuestionIndex > 0) {
       const newIndex = currentQuestionIndex - 1;
       setCurrentQuestionIndex(newIndex);
-      
+
       // Update question index in localStorage
       if (user?.id) {
         updateQuizAnswers(user.id, answers, newIndex);
@@ -303,7 +338,7 @@ const QuizPage = () => {
   const handleRetry = () => {
     // Clear existing state
     clearQuizState();
-    
+
     setAnswers({});
     setCurrentQuestionIndex(0);
     setShowResult(false);
@@ -311,7 +346,7 @@ const QuizPage = () => {
     setTimeLeft(300); // Reset timer to 5 minutes
     setTimerActive(true); // Restart timer
     setIsQuizActive(true); // Mark quiz as active again
-    
+
     // Save new quiz state
     if (user && quiz) {
       const newState = {
@@ -322,7 +357,7 @@ const QuizPage = () => {
         initialTimeLimit: 300,
         answers: {},
         currentQuestionIndex: 0,
-        isActive: true
+        isActive: true,
       };
       saveQuizState(newState);
     }
@@ -330,10 +365,10 @@ const QuizPage = () => {
 
   const handleFinish = () => {
     setIsQuizActive(false); // Mark quiz as inactive when finishing
-    
+
     // Clear quiz state from localStorage
     markQuizCompleted();
-    
+
     // Redirect back with refresh parameter if passed
     if (result?.passed) {
       navigate(-1, { state: { refreshProgress: true } });
@@ -365,10 +400,10 @@ const QuizPage = () => {
 
   if (showResult) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-w-md w-full p-8 text-center">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-3 sm:p-4">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-w-md w-full p-6 sm:p-8 text-center">
           <div
-            className={`w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center ${
+            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center ${
               result.passed
                 ? "bg-green-900/50 border-2 border-green-500"
                 : "bg-yellow-900/50 border-2 border-yellow-500"
@@ -376,7 +411,7 @@ const QuizPage = () => {
           >
             {result.passed ? (
               <svg
-                className="w-10 h-10 text-green-400"
+                className="w-8 h-8 sm:w-10 sm:h-10 text-green-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -388,7 +423,7 @@ const QuizPage = () => {
               </svg>
             ) : (
               <svg
-                className="w-10 h-10 text-yellow-400"
+                className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -401,22 +436,22 @@ const QuizPage = () => {
             )}
           </div>
 
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
             {result.passed ? "Selamat!" : "Belum Berhasil"}
           </h2>
 
           <div className="mb-6">
             <div
-              className={`text-4xl font-bold mb-2 ${
+              className={`text-3xl sm:text-4xl font-bold mb-2 ${
                 result.passed ? "text-green-400" : "text-yellow-400"
               }`}
             >
               {result.score}%
             </div>
-            <p className="text-slate-300">
+            <p className="text-slate-300 text-sm sm:text-base">
               {result.correctAnswers} dari {result.totalQuestions} jawaban benar
             </p>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1">
               Minimum score untuk lulus: 80%
             </p>
           </div>
@@ -425,14 +460,14 @@ const QuizPage = () => {
             {!result.passed && (
               <button
                 onClick={handleRetry}
-                className="bg-sky-600 text-white px-6 py-3 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none"
+                className="bg-sky-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none text-sm sm:text-base"
               >
                 Coba Lagi
               </button>
             )}
             <button
               onClick={handleFinish}
-              className={`px-6 py-3 rounded-lg transition-colors focus:outline-none ${
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-colors focus:outline-none text-sm sm:text-base ${
                 result.passed
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-slate-600 text-white hover:bg-slate-700"
@@ -450,16 +485,16 @@ const QuizPage = () => {
   const progress = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-slate-900 py-6">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-slate-900 py-4 sm:py-6">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4">
         {/* Header */}
-        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-sky-300">Quiz</h1>
-            <div className="flex items-center gap-4">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-4">
+            <h1 className="text-xl sm:text-2xl font-bold text-sky-300">Quiz</h1>
+            <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 xs:gap-4">
               <div className="flex items-center gap-2">
                 <svg
-                  className="w-5 h-5 text-slate-400"
+                  className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 flex-shrink-0"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -470,7 +505,7 @@ const QuizPage = () => {
                   />
                 </svg>
                 <span
-                  className={`font-mono text-lg font-bold ${
+                  className={`font-mono text-base sm:text-lg font-bold ${
                     timeLeft <= 60
                       ? "text-red-400 animate-pulse"
                       : "text-sky-400"
@@ -479,7 +514,7 @@ const QuizPage = () => {
                   {formatTime(timeLeft)}
                 </span>
               </div>
-              <span className="text-sm text-slate-400">
+              <span className="text-xs sm:text-sm text-slate-400">
                 Pertanyaan {currentQuestionIndex + 1} dari{" "}
                 {quiz.questions.length}
               </span>
@@ -496,17 +531,17 @@ const QuizPage = () => {
         </div>
 
         {/* Question */}
-        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold text-white mb-6">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 leading-relaxed">
             {currentQuestion.teks_pertanyaan}
           </h2>
 
           {/* Options */}
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {currentQuestion.quiz_options.map((option) => (
               <label
                 key={option.id}
-                className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                className={`flex items-start p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   answers[currentQuestion.id] === option.id
                     ? "border-sky-500 bg-sky-900/30"
                     : "border-slate-600 hover:border-slate-500 hover:bg-slate-700/50"
@@ -523,7 +558,7 @@ const QuizPage = () => {
                   className="sr-only"
                 />
                 <div
-                  className={`w-4 h-4 rounded-full border-2 mr-3 ${
+                  className={`w-4 h-4 rounded-full border-2 mr-3 mt-0.5 flex-shrink-0 ${
                     answers[currentQuestion.id] === option.id
                       ? "border-sky-400 bg-sky-400"
                       : "border-slate-400"
@@ -533,32 +568,23 @@ const QuizPage = () => {
                     <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
                   )}
                 </div>
-                <span className="text-slate-200">{option.teks_pilihan}</span>
+                <span className="text-slate-200 text-sm sm:text-base leading-relaxed flex-1">
+                  {option.teks_pilihan}
+                </span>
               </label>
             ))}
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center">
-            <button
-              onClick={handlePrevious}
-              disabled={currentQuestionIndex === 0}
-              className={`px-6 py-2 rounded-lg transition-colors focus:outline-none ${
-                currentQuestionIndex === 0
-                  ? "bg-slate-600 text-slate-400 cursor-not-allowed"
-                  : "bg-slate-600 text-white hover:bg-slate-500"
-              }`}
-            >
-              Sebelumnya
-            </button>
-
-            <div className="flex gap-2">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg p-4 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+            {/* Progress dots - Mobile: top, Desktop: center */}
+            <div className="flex justify-center gap-1.5 sm:gap-2 order-2 sm:order-2">
               {quiz.questions.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-3 h-3 rounded-full ${
+                  className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
                     index === currentQuestionIndex
                       ? "bg-sky-500"
                       : answers[quiz.questions[index].id]
@@ -569,26 +595,44 @@ const QuizPage = () => {
               ))}
             </div>
 
-            {currentQuestionIndex === quiz.questions.length - 1 ? (
+            {/* Navigation buttons */}
+            <div className="flex justify-between sm:justify-start sm:gap-4 order-1 sm:order-1">
               <button
-                onClick={handleSubmit}
-                disabled={submitting}
-                className={`px-6 py-2 rounded-lg transition-colors focus:outline-none ${
-                  submitting
+                onClick={handlePrevious}
+                disabled={currentQuestionIndex === 0}
+                className={`px-4 sm:px-6 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 text-sm sm:text-base min-h-[40px] ${
+                  currentQuestionIndex === 0
                     ? "bg-slate-600 text-slate-400 cursor-not-allowed"
-                    : "bg-green-600 text-white hover:bg-green-700"
+                    : "bg-slate-600 text-white hover:bg-slate-500"
                 }`}
               >
-                {submitting ? "Mengirim..." : "Selesai"}
+                Sebelumnya
               </button>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none"
-              >
-                Selanjutnya
-              </button>
-            )}
+
+              {currentQuestionIndex === quiz.questions.length - 1 ? (
+                <button
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                  className={`px-4 sm:px-6 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 text-sm sm:text-base min-h-[40px] ${
+                    submitting
+                      ? "bg-slate-600 text-slate-400 cursor-not-allowed"
+                      : "bg-green-600 text-white hover:bg-green-700"
+                  }`}
+                >
+                  {submitting ? "Mengirim..." : "Selesai"}
+                </button>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  className="bg-sky-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-sky-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-50 text-sm sm:text-base min-h-[40px]"
+                >
+                  Selanjutnya
+                </button>
+              )}
+            </div>
+
+            {/* Empty div for spacing on desktop */}
+            <div className="hidden sm:block sm:w-20 order-3"></div>
           </div>
         </div>
       </div>
