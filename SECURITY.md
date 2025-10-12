@@ -3,11 +3,13 @@
 ## ⚠️ Masalah Keamanan yang Ditemukan
 
 ### 1. API Keys Terexpose di Front-End
+
 - **Masalah:** Supabase URL dan Anonymous Key hardcoded di `supabaseClient.js`
 - **Risiko:** Siapa saja dapat mengakses dan menggunakan API credentials
 - **Status:** ✅ DIPERBAIKI - Dipindahkan ke environment variables
 
 ### 2. Row Level Security (RLS) Belum Dikonfigurasi
+
 - **Masalah:** RLS policies belum disetup dengan benar
 - **Risiko:** Data tidak terlindungi dari akses unauthorized
 - **Status:** ⚠️ PERLU DIKONFIGURASI
@@ -15,21 +17,29 @@
 ## 🔧 Langkah Perbaikan yang Dilakukan
 
 ### 1. Environment Variables
+
 Credentials sekarang menggunakan environment variables:
+
 ```javascript
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 ```
 
 ### 2. File .env Setup
+
 Buat file `.env` di root project dengan:
+
 ```
-VITE_SUPABASE_URL=https://cxvhukydnayklznlasrp.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4dmh1a3lkbmF5a2x6bmxhc3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1NjQyOTksImV4cCI6MjA3MjE0MDI5OX0.5fO2NT9vSyzV_7yKKuDdL6KHOs7vYmaddwWvkek7dLI
+VITE_SUPABASE_URL=your_actual_supabase_url
+VITE_SUPABASE_ANON_KEY=your_actual_anon_key
 ```
 
+**⚠️ PENTING: Jangan pernah commit file .env ke Git!**
+
 ### 3. Updated .gitignore
+
 Menambahkan proteksi untuk file sensitif:
+
 - `.env*` files
 - `*.key` files
 - `config/secrets.js`
@@ -37,9 +47,11 @@ Menambahkan proteksi untuk file sensitif:
 ## 🚨 Langkah Keamanan yang Masih Diperlukan
 
 ### 1. Konfigurasi Row Level Security (RLS)
+
 Di Supabase Dashboard, aktifkan RLS untuk semua tables:
 
 #### Forum Tables:
+
 ```sql
 -- Enable RLS
 ALTER TABLE forum_threads ENABLE ROW LEVEL SECURITY;
@@ -54,6 +66,7 @@ CREATE POLICY "Users can delete their own threads" ON forum_threads FOR DELETE U
 ```
 
 #### User Progress Tables:
+
 ```sql
 -- Enable RLS
 ALTER TABLE user_progress ENABLE ROW LEVEL SECURITY;
@@ -64,7 +77,9 @@ CREATE POLICY "Users can insert their own progress" ON user_progress FOR INSERT 
 ```
 
 ### 2. Storage Security
+
 Untuk forum images storage bucket:
+
 ```sql
 -- Storage policies
 CREATE POLICY "Users can upload images" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'forum-images' AND auth.role() = 'authenticated');
@@ -72,9 +87,11 @@ CREATE POLICY "Anyone can view images" ON storage.objects FOR SELECT USING (buck
 ```
 
 ### 3. API Rate Limiting
+
 Implementasikan rate limiting di aplikasi atau Supabase edge functions.
 
 ### 4. Input Validation & Sanitization
+
 Tambahkan validasi input yang lebih ketat di semua form dan API calls.
 
 ## 🔐 Best Practices Keamanan
@@ -100,6 +117,7 @@ Tambahkan validasi input yang lebih ketat di semua form dan API calls.
 ## 🆘 Langkah Darurat
 
 Jika API keys sudah tercommit ke repository public:
+
 1. **Segera** regenerate Supabase keys di dashboard
 2. **Update** semua environment variables
 3. **Revoke** access untuk keys yang lama
