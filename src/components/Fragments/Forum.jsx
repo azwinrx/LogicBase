@@ -148,7 +148,7 @@ export default function Forum() {
   }
 
   return (
-    <div className="min-h-screen p-3 sm:p-4 lg:p-6">
+    <div className="min-h-screen">
       {/* Main Layout */}
       <div className="max-w-7xl mx-auto">
         {/* Unified Header Card with Create Button */}

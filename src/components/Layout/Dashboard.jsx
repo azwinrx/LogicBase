@@ -7,7 +7,7 @@ export default function Dashboard({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Mobile Sidebar Backdrop */}
       {isSidebarOpen && (
         <div
@@ -21,10 +21,10 @@ export default function Dashboard({ children }) {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      <div className="flex-1 flex flex-col lg:ml-60">
+      <div className="flex-1 flex flex-col lg:ml-60 h-screen">
         <Header setIsSidebarOpen={setIsSidebarOpen} />
         <main
-          className="p-4 sm:p-6 min-h-screen bg-cover bg-center bg-no-repeat flex-1"
+          className="pt-5 px-6 pb-4 sm:pt-6 sm:px-8 sm:pb-6 lg:px-8 bg-cover bg-center bg-fixed bg-no-repeat flex-1 overflow-y-auto"
           style={{ backgroundImage: `url(${skyBackground})` }}
         >
           {children}

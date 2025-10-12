@@ -15,7 +15,7 @@ const pastelColors = [
 ];
 
 const DashboardSkeleton = () => (
-  <main className="animate-pulse flex-1 p-6 md:p-8 overflow-y-auto">
+  <main className="animate-pulse flex-1 overflow-y-auto">
     <div className="h-8 bg-slate-700 rounded w-1/2 mb-2"></div>
     <div className="h-4 bg-slate-700 rounded w-1/3 mb-8"></div>
     <div className="bg-slate-800/50 ring-1 ring-slate-700 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 mb-8">
@@ -135,7 +135,7 @@ export default function DashboardContent() {
   }
 
   return (
-    <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+    <main className="flex-1 overflow-y-auto">
       <section id="header-sambutan">
         <div className="flex items-center justify-start gap-2 sm:gap-3">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-black leading-tight">
