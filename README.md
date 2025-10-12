@@ -207,14 +207,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 **Team**
 
-**LogicBase** dikembangkan oleh tim yang passionate terhadap pendidikan dan teknologi, dengan misi untuk democratizing programming education di Indonesia.
+**LogicBase** dikembangkan oleh Muhammad Azwin Rifai, Mochammad Guntur Ramadhan, dan M. Azmi Al fadillah. kemi memiliki ketertarikan terhadap dunia pendidikan dan teknologi, dan memiliki sebuah misi untuk democratizing programming education di Indonesia.
 
 ---
 
 ## 📞 **Contact & Support**
 
 - **GitHub Issues**: [Report bugs atau request features](https://github.com/azwinrx/LogicBase/issues)
-- **Email**: [logicbase.support@example.com]
+- **Email**: [NaN]
 - **Documentation**: [Visit our docs](https://github.com/azwinrx/LogicBase/wiki)
 
 ---
