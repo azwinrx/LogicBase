@@ -83,7 +83,7 @@ const Login = () => {
               htmlFor="email"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Email 📧
+              Email
             </label>
             <input
               type="email"
@@ -100,7 +100,7 @@ const Login = () => {
               htmlFor="password"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Password 🔑
+              Password
             </label>
             <input
               type="password"
@@ -127,7 +127,7 @@ const Login = () => {
             style={{ backgroundColor: pastelColors[0] }}
             disabled={loading}
           >
-            {loading ? "Sedang Masuk..." : "Masuk 🚀"}
+            {loading ? "Sedang Masuk..." : "Masuk"}
           </button>
 
           {error && (
@@ -142,7 +142,7 @@ const Login = () => {
               href="/signup"
               className="text-purple-600 hover:text-purple-700 font-semibold hover:underline transition-colors"
             >
-              Daftar Sekarang! 🎉
+              Daftar Sekarang!
             </a>
           </div>
         </form>

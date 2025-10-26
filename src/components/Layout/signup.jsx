@@ -70,7 +70,7 @@ const Signup = () => {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-3 mb-4">
             <img
-              src="/Icon Kobi (maskot LogicBase)/KobiJempol.svg"
+              src="/Icon Kobi (maskot LogicBase)/kobiMelambai.png"
               alt="Kobi"
               className="w-10 h-10 sm:w-12 sm:h-12"
             />
@@ -90,7 +90,7 @@ const Signup = () => {
               htmlFor="name"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Nama Lengkap 👤
+              Nama Lengkap
             </label>
             <input
               type="text"
@@ -107,7 +107,7 @@ const Signup = () => {
               htmlFor="email"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Email 📧
+              Email
             </label>
             <input
               type="email"
@@ -124,7 +124,7 @@ const Signup = () => {
               htmlFor="password"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Password 🔑
+              Password
             </label>
             <input
               type="password"
@@ -141,7 +141,7 @@ const Signup = () => {
               htmlFor="confirmPassword"
               className="block text-sm text-slate-700 mb-2 font-semibold"
             >
-              Konfirmasi Password ✅
+              Konfirmasi Password
             </label>
             <input
               type="password"
