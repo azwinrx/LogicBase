@@ -8,12 +8,13 @@ import { Toaster } from "react-hot-toast";
 import router from "./routes";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <AuthProvider>
-      <SearchProvider>
-        <Toaster />
-        <RouterProvider router={router} />
-      </SearchProvider>
-    </AuthProvider>
-  </StrictMode>
+  // StrictMode disabled to prevent double toast notifications in development
+  // <StrictMode>
+  <AuthProvider>
+    <SearchProvider>
+      <Toaster />
+      <RouterProvider router={router} />
+    </SearchProvider>
+  </AuthProvider>
+  // </StrictMode>
 );

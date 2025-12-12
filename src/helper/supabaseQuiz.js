@@ -111,8 +111,9 @@ export async function submitQuizAnswersAndMarkComplete(
     const score = Math.round((correctAnswers / totalQuestions) * 100);
     const passed = score >= 80; // Minimum score 80% untuk lulus
 
-    // If passed, mark the sub materi as complete
-    if (passed && userId && subMateriId) {
+    // Always mark progress regardless of pass/fail (one attempt only)
+    // This ensures user cannot retake the quiz
+    if (userId && subMateriId) {
       await addProgress(userId, subMateriId);
     }
 
@@ -241,5 +242,29 @@ export async function getCompleteQuizBySlug(slug) {
   } catch (error) {
     console.error("Gagal mengambil quiz dengan slug:", error);
     return null;
+  }
+}
+
+// Check if user has already taken the quiz (one attempt only)
+export async function hasUserTakenQuiz(userId, subMateriId) {
+  try {
+    const { data, error } = await supabase
+      .from("user_progress")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("sub_materi_id", subMateriId)
+      .maybeSingle();
+
+    if (error && error.code !== "PGRST116") {
+      // PGRST116 is "not found" error, which is ok
+      console.error("Error checking quiz attempt:", error);
+      return false;
+    }
+
+    // If progress exists, quiz has been taken (regardless of pass/fail)
+    return !!data;
+  } catch (error) {
+    console.error("Error checking quiz attempt:", error);
+    return false;
   }
 }
