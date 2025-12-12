@@ -91,7 +91,7 @@ const Reset_Password = () => {
               className="w-full py-2 px-4 text-slate-800 rounded-md hover:shadow-lg transition duration-300 focus:outline-none font-semibold"
               style={{ backgroundColor: pastelColors[0] }}
             >
-              Kembali ke Login 🏠
+              Kembali ke Login
             </button>
           </div>
         ) : (
@@ -101,7 +101,7 @@ const Reset_Password = () => {
                 htmlFor="email"
                 className="block text-sm text-slate-700 mb-2 font-semibold"
               >
-                Email 📧
+                Email
               </label>
               <input
                 type="email"
@@ -134,7 +134,7 @@ const Reset_Password = () => {
                 href="login"
                 className="text-purple-600 hover:text-purple-700 font-semibold hover:underline transition-colors"
               >
-                Masuk Sekarang! 😊
+                Masuk Sekarang!
               </a>
             </div>
           </form>
